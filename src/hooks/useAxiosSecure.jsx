@@ -29,7 +29,7 @@ export default function useAxiosSecure() {
       const status = error.response.status;
       if (status === 401 || status === 403) {
         await logoutUser();
-        navigate("/auth/login");
+        navigate("/login");
       }
       return Promise.reject(error);
     }
