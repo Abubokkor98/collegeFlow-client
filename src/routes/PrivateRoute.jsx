@@ -1,17 +1,14 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
 import { useLocation } from "react-router";
+import Loading from "../components/loader/Loading";
 
 export default function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
   const location = useLocation();
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!user) {

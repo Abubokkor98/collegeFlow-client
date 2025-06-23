@@ -1,4 +1,5 @@
 import CollegeCard from "../college/CollegeCard";
+import Loading from "../loader/Loading";
 
 export default function FeaturedColleges({ colleges, isLoading }) {
   return (
@@ -15,14 +16,7 @@ export default function FeaturedColleges({ colleges, isLoading }) {
       </div>
 
       {isLoading ? (
-        <div className="flex items-center justify-center py-20">
-          <div className="relative">
-            <div className="w-12 h-12 rounded-full border-4 border-gray-600 border-t-blue-500 animate-spin"></div>
-            <div className="mt-4 text-center text-gray-400">
-              Loading colleges...
-            </div>
-          </div>
-        </div>
+        <Loading />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {colleges.slice(0, 6).map((college) => (

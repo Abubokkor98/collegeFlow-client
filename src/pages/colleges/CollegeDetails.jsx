@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ExternalLink } from "lucide-react";
 import CollegeOverview from "../../components/collegeDetails/CollegeOverview";
 import CollegeActivities from "../../components/collegeDetails/CollegeActivities";
+import Loading from "../../components/loader/Loading";
 
 export default function CollegeDetails() {
   const { id } = useParams();
@@ -24,16 +25,7 @@ export default function CollegeDetails() {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="relative">
-            <div className="w-12 h-12 rounded-full border-4 border-gray-600 border-t-blue-500 animate-spin mx-auto mb-4"></div>
-          </div>
-          <p className="text-gray-300 text-lg">Loading college details...</p>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (isError || !college) {

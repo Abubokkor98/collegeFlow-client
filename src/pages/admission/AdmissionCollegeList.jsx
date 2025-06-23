@@ -3,6 +3,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import Loading from "../../components/loader/Loading";
 
 export default function AdmissionCollegeList() {
   const axiosPublic = useAxiosPublic();
@@ -25,12 +26,7 @@ export default function AdmissionCollegeList() {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 text-white">
-        <span className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin"></span>
-        <p className="mt-4 text-gray-300">Loading colleges...</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -38,7 +34,9 @@ export default function AdmissionCollegeList() {
       <div className="container mx-auto">
         {/* Page Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white">Start Your Admission Process</h1>
+          <h1 className="text-4xl font-bold text-white">
+            Start Your Admission Process
+          </h1>
           <p className="text-gray-300 mt-4 max-w-3xl mx-auto">
             Select a college to begin your admission application. Fill out the
             form with your details to apply.
@@ -64,9 +62,13 @@ export default function AdmissionCollegeList() {
 
               {/* Content */}
               <div className="p-6 space-y-4 text-white">
-                <h2 className="text-xl font-semibold line-clamp-2">{college.name}</h2>
+                <h2 className="text-xl font-semibold line-clamp-2">
+                  {college.name}
+                </h2>
                 <p className="text-sm text-gray-300">
-                  <span className="font-medium text-white">Admission Dates:</span>{" "}
+                  <span className="font-medium text-white">
+                    Admission Dates:
+                  </span>{" "}
                   {college.admissionDates}
                 </p>
 

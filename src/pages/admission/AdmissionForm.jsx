@@ -5,6 +5,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import Loading from "../../components/loader/Loading";
 
 export default function AdmissionForm() {
   const { collegeId } = useParams();
@@ -56,10 +57,7 @@ export default function AdmissionForm() {
 
   if (isLoading || !college) {
     return (
-      <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900">
-        <span className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin"></span>
-        <p className="text-gray-300 mt-4">Loading college information...</p>
-      </div>
+      <Loading/>
     );
   }
 

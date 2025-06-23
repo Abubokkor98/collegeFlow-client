@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import CollegeCard from "../../components/college/CollegeCard";
+import Loading from "../../components/loader/Loading";
 
 export default function Colleges() {
   const axiosPublic = useAxiosPublic();
@@ -15,22 +16,17 @@ export default function Colleges() {
       <div className="container mx-auto">
         {/* Page Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white">
-            Explore Colleges
-          </h1>
+          <h1 className="text-4xl font-bold text-white">Explore Colleges</h1>
           <p className="text-gray-300 mt-4 max-w-3xl mx-auto">
-            Browse through our curated list of colleges and universities. Find the perfect institution that aligns with your academic aspirations and personal interests.
+            Browse through our curated list of colleges and universities. Find
+            the perfect institution that aligns with your academic aspirations
+            and personal interests.
           </p>
         </div>
 
         {/* Loading State */}
         {isLoading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="flex flex-col items-center space-y-4">
-              <span className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin"></span>
-              <p className="text-gray-300">Loading colleges...</p>
-            </div>
-          </div>
+          <Loading />
         ) : (
           /* College Cards Grid */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
