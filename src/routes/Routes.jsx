@@ -6,12 +6,13 @@ import ResetPassword from "../pages/auth/ResetPassword";
 import Colleges from "../pages/colleges/Colleges";
 import CollegeDetails from "../pages/colleges/CollegeDetails";
 import PrivateRoute from "./PrivateRoute";
-import Admission from "../pages/admission/Admission";
 import MyCollege from "../pages/myCollege/MyCollege";
 import Profile from "../pages/profile/Profile";
 import NotFound from "../pages/NotFound";
 import Footer from "../components/shared/Footer";
 import Navbar from "../components/shared/Navbar";
+import AdmissionForm from "../pages/admission/AdmissionForm";
+import AdmissionCollegeList from "../pages/admission/AdmissionCollegeList";
 
 export default function AllRoutes() {
   return (
@@ -19,18 +20,20 @@ export default function AllRoutes() {
       <Navbar />
       <Routes>
         <Route index element={<Home />} />
+        <Route path="/colleges" element={<Colleges />} />
+        <Route path="/college/:id" element={<CollegeDetails />} />
+        <Route path="/admission" element={<AdmissionCollegeList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/colleges" element={<Colleges />} />
-        <Route path="/college/:id" element={<CollegeDetails />} />
 
         {/* Protected Routes */}
+
         <Route
           path="/admission/:collegeId"
           element={
             <PrivateRoute>
-              <Admission />
+              <AdmissionForm />
             </PrivateRoute>
           }
         />

@@ -63,6 +63,13 @@ export default function Navbar() {
             Colleges
             <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-8 transition-all duration-300 rounded-full"></span>
           </Link>
+          <Link
+            to="/admission"
+            className="relative text-white/90 hover:text-white px-4 xl:px-6 py-3 text-sm font-medium transition-all duration-300 group rounded-xl hover:bg-white/10 backdrop-blur-sm"
+          >
+            Admission
+            <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-8 transition-all duration-300 rounded-full"></span>
+          </Link>
 
           {user && (
             <Link
@@ -160,6 +167,13 @@ export default function Navbar() {
                 onClick={closeMobileMenu}
               >
                 Colleges
+              </Link>
+              <Link
+                to="/admission"
+                className="block text-white/90 hover:text-white px-4 py-3 text-base font-medium transition-all duration-300 rounded-xl hover:bg-white/10 backdrop-blur-sm"
+                onClick={closeMobileMenu}
+              >
+                Admission
               </Link>
               {user && (
                 <Link
