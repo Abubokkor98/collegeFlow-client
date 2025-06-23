@@ -1,7 +1,5 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/firebase.config";
 import { toast } from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
@@ -11,28 +9,26 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { googleSignIn } = useAuth();
+  const { loginUser, setUser, loading, googleSignIn } = useAuth();
 
   const from = location.state?.from?.pathname || "/";
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
+    formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      const result = await loginUser(data.email, data.password);
+      const user = result.user;
+      setUser(user);
       toast.success("Logged in successfully");
       navigate(from, { replace: true });
     } catch (error) {
       console.error("Login error:", error);
-      setError("root", {
-        message: "Failed to login. Please check your credentials.",
-      });
-      toast.error("Login failed");
+      toast.error("Failed to login. Please check your credentials.");
     }
   };
 
@@ -149,10 +145,10 @@ const Login = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={loading}
                 className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {isSubmitting ? (
+                {loading ? (
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                     <span>Signing In...</span>
