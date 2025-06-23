@@ -2,15 +2,58 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Home from "../pages/home/Home";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import ResetPassword from "../pages/auth/ResetPassword";
+import Colleges from "../pages/colleges/Colleges";
+import CollegeDetails from "../pages/colleges/CollegeDetails";
+import PrivateRoute from "./PrivateRoute";
+import Admission from "../pages/admission/Admission";
+import MyCollege from "../pages/myCollege/MyCollege";
+import Profile from "../pages/profile/Profile";
+import NotFound from "../pages/NotFound";
+import Footer from "../components/shared/Footer";
+import Navbar from "../components/shared/Navbar";
 
 export default function AllRoutes() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route index element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/colleges" element={<Colleges />} />
+        <Route path="/college/:id" element={<CollegeDetails />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/admission/:collegeId"
+          element={
+            <PrivateRoute>
+              <Admission />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/my-college"
+          element={
+            <PrivateRoute>
+              <MyCollege />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
