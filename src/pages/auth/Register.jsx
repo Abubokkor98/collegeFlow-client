@@ -4,39 +4,50 @@ import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate } from "react-router";
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
-  const { registerUser, updateUserProfile, googleSignIn } = useAuth();
+  const { registerUser, setUser, updateUserProfile, loading, googleSignIn } =
+    useAuth();
+  const axiosPublic = useAxiosPublic();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     watch,
-    setError,
   } = useForm();
 
   const password = watch("password");
 
   const onSubmit = async (data) => {
     try {
-      // Create user with email/password
-      const userCredential = await registerUser(data.email, data.password);
+      const user = {
+        email: data.email,
+        name: data.name,
+      };
 
-      // Update user profile with display name
-      await updateUserProfile({ displayName: data.name });
+      // console.log(user);
 
-      toast.success("Account created successfully!");
-      navigate("/");
+      const userRes = await axiosPublic.post("/users", user);
+
+      if (userRes.data.insertedId) {
+        const result = await registerUser(data.email, data.password);
+        const user = result.user;
+        setUser(user);
+        toast.success("Account created successfully");
+
+        await updateUserProfile({
+          displayName: data.name,
+        });
+
+        navigate("/");
+      }
     } catch (error) {
-      console.error("Registration error:", error);
-      setError("root", {
-        message: error.message || "Failed to create account",
-      });
-      toast.error("Registration failed");
+      toast.error(error.message);
     }
   };
 
@@ -220,10 +231,10 @@ const Register = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={loading}
                 className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {isSubmitting ? (
+                {loading ? (
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                     <span>Creating Account...</span>
