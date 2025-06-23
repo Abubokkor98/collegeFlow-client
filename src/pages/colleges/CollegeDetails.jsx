@@ -1,16 +1,24 @@
-import { Link, useLocation, useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import useAuth from "../../hooks/useAuth";
-import toast from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
-import { Star, Calendar, Trophy, Beaker, ExternalLink, MapPin, Users, Award, BookOpen, Camera, FileText } from "lucide-react";
+import {
+  Star,
+  Calendar,
+  Trophy,
+  Beaker,
+  ExternalLink,
+  MapPin,
+  Users,
+  Award,
+  BookOpen,
+  Camera,
+  FileText,
+} from "lucide-react";
 
 export default function CollegeDetails() {
   const { id } = useParams();
   const axiosPublic = useAxiosPublic();
-  const { user } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const {
     data: college,
@@ -22,11 +30,6 @@ export default function CollegeDetails() {
   });
 
   const handleApplyClick = () => {
-    if (!user) {
-      navigate("/login", { state: { from: location } });
-      toast.error("Please login to apply");
-      return;
-    }
     navigate(`/admission/${college._id}`);
   };
 
@@ -47,9 +50,11 @@ export default function CollegeDetails() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">College not found</h2>
-          <Link 
-            to="/colleges" 
+          <h2 className="text-3xl font-bold text-white mb-6">
+            College not found
+          </h2>
+          <Link
+            to="/colleges"
             className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
           >
             <span>Browse Colleges</span>
@@ -73,7 +78,7 @@ export default function CollegeDetails() {
         {/* Hero Section */}
         <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-xl mb-8">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5"></div>
-          
+
           <div className="relative flex flex-col lg:flex-row">
             {/* Image Section */}
             <div className="lg:w-2/5 relative overflow-hidden">
@@ -83,7 +88,7 @@ export default function CollegeDetails() {
                 className="w-full h-80 lg:h-96 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-              
+
               {/* Rating Badge */}
               <div className="absolute top-6 right-6 flex items-center space-x-2 bg-black/30 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2">
                 <Star className="w-5 h-5 text-yellow-400 fill-current" />
@@ -96,10 +101,14 @@ export default function CollegeDetails() {
             {/* Content Section */}
             <div className="lg:w-3/5 p-8 space-y-6">
               <div>
-                <h1 className="text-4xl font-bold text-white mb-2">{college.name}</h1>
+                <h1 className="text-4xl font-bold text-white mb-2">
+                  {college.name}
+                </h1>
                 <div className="flex items-center space-x-2 text-blue-400">
                   <MapPin className="w-4 h-4" />
-                  <span className="text-sm">Premier Educational Institution</span>
+                  <span className="text-sm">
+                    Premier Educational Institution
+                  </span>
                 </div>
               </div>
 
@@ -110,8 +119,12 @@ export default function CollegeDetails() {
                     <Calendar className="w-6 h-6 text-blue-400" />
                   </div>
                   <div>
-                    <span className="text-xs text-gray-400 uppercase tracking-wider">Admission Dates</span>
-                    <p className="text-white font-medium">{college.admissionDates}</p>
+                    <span className="text-xs text-gray-400 uppercase tracking-wider">
+                      Admission Dates
+                    </span>
+                    <p className="text-white font-medium">
+                      {college.admissionDates}
+                    </p>
                   </div>
                 </div>
 
@@ -120,8 +133,12 @@ export default function CollegeDetails() {
                     <Users className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
-                    <span className="text-xs text-gray-400 uppercase tracking-wider">Admission Process</span>
-                    <p className="text-white font-medium">{college.admissionProcess}</p>
+                    <span className="text-xs text-gray-400 uppercase tracking-wider">
+                      Admission Process
+                    </span>
+                    <p className="text-white font-medium">
+                      {college.admissionProcess}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -132,20 +149,24 @@ export default function CollegeDetails() {
                   <Beaker className="w-6 h-6 text-orange-400" />
                 </div>
                 <div className="flex-1">
-                  <span className="text-xs text-gray-400 uppercase tracking-wider">Research Excellence</span>
-                  <p className="text-gray-300 leading-relaxed">{college.researchHistory}</p>
+                  <span className="text-xs text-gray-400 uppercase tracking-wider">
+                    Research Excellence
+                  </span>
+                  <p className="text-gray-300 leading-relaxed">
+                    {college.researchHistory}
+                  </p>
                 </div>
               </div>
 
               {/* Apply Button */}
               <div className="pt-4">
-                <button 
+                <button
                   onClick={handleApplyClick}
                   className="relative bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center space-x-3 group"
                 >
                   <span>Apply Now</span>
                   <ExternalLink className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-                  
+
                   {/* Button shine effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 rounded-xl"></div>
                 </button>
@@ -164,10 +185,13 @@ export default function CollegeDetails() {
               </div>
               <h2 className="text-2xl font-bold text-white">Campus Events</h2>
             </div>
-            
+
             <div className="space-y-3">
               {college.events?.map((event, i) => (
-                <div key={i} className="bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-colors duration-300">
+                <div
+                  key={i}
+                  className="bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-colors duration-300"
+                >
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                     <span className="text-gray-300">{event}</span>
@@ -183,12 +207,17 @@ export default function CollegeDetails() {
               <div className="flex items-center justify-center w-12 h-12 bg-green-500/20 rounded-lg">
                 <Award className="w-6 h-6 text-green-400" />
               </div>
-              <h2 className="text-2xl font-bold text-white">Sports Facilities</h2>
+              <h2 className="text-2xl font-bold text-white">
+                Sports Facilities
+              </h2>
             </div>
-            
+
             <div className="space-y-3">
               {college.sports?.map((sport, i) => (
-                <div key={i} className="bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-colors duration-300">
+                <div
+                  key={i}
+                  className="bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-colors duration-300"
+                >
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                     <span className="text-gray-300">{sport}</span>
@@ -207,7 +236,7 @@ export default function CollegeDetails() {
             </div>
             <h2 className="text-2xl font-bold text-white">Campus Gallery</h2>
           </div>
-          
+
           {college.gallery?.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {college.gallery.map((img, i) => (
@@ -227,7 +256,9 @@ export default function CollegeDetails() {
           ) : (
             <div className="text-center py-12">
               <Camera className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-              <p className="text-gray-400 text-lg">No gallery images available for this college</p>
+              <p className="text-gray-400 text-lg">
+                No gallery images available for this college
+              </p>
             </div>
           )}
         </div>
@@ -238,13 +269,18 @@ export default function CollegeDetails() {
             <div className="flex items-center justify-center w-12 h-12 bg-orange-500/20 rounded-lg">
               <FileText className="w-6 h-6 text-orange-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white">Research Publications</h2>
+            <h2 className="text-2xl font-bold text-white">
+              Research Publications
+            </h2>
           </div>
-          
+
           {college.researchPapers?.length > 0 ? (
             <div className="space-y-4">
               {college.researchPapers.map((paper, i) => (
-                <div key={i} className="group bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20">
+                <div
+                  key={i}
+                  className="group bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-white/20"
+                >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors duration-300">
@@ -252,7 +288,9 @@ export default function CollegeDetails() {
                       </h3>
                       <div className="flex items-center space-x-2">
                         <BookOpen className="w-4 h-4 text-orange-400" />
-                        <span className="text-gray-400 text-sm">Research Publication</span>
+                        <span className="text-gray-400 text-sm">
+                          Research Publication
+                        </span>
                       </div>
                     </div>
                     <a
@@ -271,7 +309,9 @@ export default function CollegeDetails() {
           ) : (
             <div className="text-center py-12">
               <FileText className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-              <p className="text-gray-400 text-lg">No research papers available for this college</p>
+              <p className="text-gray-400 text-lg">
+                No research papers available for this college
+              </p>
             </div>
           )}
         </div>

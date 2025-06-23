@@ -1,8 +1,22 @@
-import React from "react";
-import { Link } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Star, Calendar, Trophy, Beaker, ExternalLink } from "lucide-react";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 export default function CollegeCard({ college, variant = "home" }) {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleViewDetails = (collegeId) => {
+    if (!user) {
+      toast.error("Please login to view college details");
+      navigate("/login", { state: { from: location } });
+      return;
+    }
+    navigate(`/college/${collegeId}`);
+  };
+
   return (
     <div className="relative flex flex-col justify-between h-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:border-white/30 group">
       {/* Background Pattern */}
@@ -132,16 +146,16 @@ export default function CollegeCard({ college, variant = "home" }) {
           )}
         </div>
 
-        {/* Button Section - pushed to bottom */}
+        {/* Button Section*/}
         <div className="mt-auto pt-4 border-t border-white/10">
-          <Link
-            to={`/college/${college._id}`}
+          <button
+            onClick={()=>handleViewDetails(college._id)}
             className="relative w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 group/btn"
           >
             <span>View Details</span>
             <ExternalLink className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></div>
-          </Link>
+          </button>
         </div>
       </div>
     </div>
