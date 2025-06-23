@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { GraduationCap, User, LogOut, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const { user, logoutUser } = useAuth();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -15,6 +16,10 @@ export default function Navbar() {
     setIsMobileMenuOpen(false);
   };
 
+  const handleLogout = () => {
+    logoutUser();
+    navigate("/");
+  };
   return (
     <div className="bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-indigo-900/95 backdrop-blur-xl border-b border-white/10 px-4 sm:px-6 py-4 shadow-2xl relative z-90">
       {/* Animated Background Elements */}
@@ -25,7 +30,11 @@ export default function Navbar() {
 
       <div className="flex items-center justify-between max-w-7xl mx-auto relative z-10">
         {/* Logo Section */}
-        <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group" onClick={closeMobileMenu}>
+        <Link
+          to="/"
+          className="flex items-center space-x-2 sm:space-x-3 group"
+          onClick={closeMobileMenu}
+        >
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg sm:rounded-xl blur-md opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
             <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-2 sm:p-2.5 rounded-lg sm:rounded-xl shadow-lg">
@@ -77,11 +86,13 @@ export default function Navbar() {
                 <div className="w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                   <User className="h-3 w-3 lg:h-4 lg:w-4 text-white" />
                 </div>
-                <span className="hidden lg:inline">{user.displayName || "Profile"}</span>
+                <span className="hidden lg:inline">
+                  {user.displayName || "Profile"}
+                </span>
                 <span className="lg:hidden">Profile</span>
               </Link>
               <button
-                onClick={logoutUser}
+                onClick={handleLogout}
                 className="flex items-center space-x-1 lg:space-x-2 bg-gradient-to-r from-red-500/20 to-pink-500/20 hover:from-red-500/30 hover:to-pink-500/30 backdrop-blur-sm border border-red-400/30 rounded-xl lg:rounded-2xl px-3 lg:px-6 py-2 lg:py-3 text-xs lg:text-sm font-medium text-red-200 hover:text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 <LogOut className="h-3 w-3 lg:h-4 lg:w-4" />
