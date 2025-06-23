@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import useGoogleAuth from "../../hooks/useGoogleAuth";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,16 +33,8 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      await googleSignIn();
-      toast.success("Logged in with Google");
-      navigate(from, { replace: true });
-    } catch (error) {
-      console.error("Google login error:", error);
-      toast.error("Google login failed");
-    }
-  };
+  // Google Sign In
+  const handleGoogleLogin = useGoogleAuth();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 flex items-center justify-center p-4">

@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router";
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useGoogleAuth from "../../hooks/useGoogleAuth";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,16 +51,8 @@ const Register = () => {
     }
   };
 
-  const handleGoogleRegister = async () => {
-    try {
-      await googleSignIn();
-      toast.success("Account created with Google");
-      navigate("/");
-    } catch (error) {
-      console.error("Google registration error:", error);
-      toast.error("Google registration failed");
-    }
-  };
+  // Google authentication handler
+  const handleGoogleAuth = useGoogleAuth();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 flex items-center justify-center p-4">
@@ -258,7 +251,7 @@ const Register = () => {
 
             {/* Google Sign Up */}
             <button
-              onClick={handleGoogleRegister}
+              onClick={() => handleGoogleAuth()}
               className="w-full py-3 px-6 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-lg"
             >
               <div className="flex items-center justify-center space-x-3">
