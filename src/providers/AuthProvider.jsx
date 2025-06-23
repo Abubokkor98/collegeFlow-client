@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -43,6 +44,11 @@ export default function AuthProvider({ children }) {
     return signInWithPopup(auth, googleProvider);
   };
 
+  // Send password reset email
+  const sendPasswordReset = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
   // firease observer
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -74,6 +80,7 @@ export default function AuthProvider({ children }) {
     logoutUser,
     updateUserProfile,
     googleSignIn,
+    sendPasswordReset,
     setUser,
     loading,
     setLoading,

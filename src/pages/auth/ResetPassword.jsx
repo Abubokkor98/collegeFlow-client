@@ -1,19 +1,20 @@
-import { sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
 import { Mail } from "lucide-react";
+import useAuth from "../../hooks/useAuth";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { sendPasswordReset } = useAuth();
 
   const handleReset = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await sendPasswordResetEmail(auth, email);
+      await sendPasswordReset(email);
       toast.success("Reset email sent");
       navigate("/login", { replace: true });
     } catch (error) {
@@ -36,7 +37,9 @@ export default function ResetPassword() {
                   Reset Password
                 </span>
               </h1>
-              <p className="text-gray-300">Enter your email to reset your password</p>
+              <p className="text-gray-300">
+                Enter your email to reset your password
+              </p>
             </div>
 
             <form onSubmit={handleReset} className="space-y-6">
@@ -76,7 +79,10 @@ export default function ResetPassword() {
             </form>
 
             <div className="text-center mt-6">
-              <Link to="/login" className="text-blue-400 hover:text-blue-300 transition-colors">
+              <Link
+                to="/login"
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+              >
                 Back to Login
               </Link>
             </div>
