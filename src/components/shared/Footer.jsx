@@ -126,13 +126,41 @@ export default function Footer() {
           
         </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-white/10 pt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+        {/* Bottom Section - Mobile First Design */}
+        <div className="border-t border-white/10 pt-6 md:pt-8">
+          
+          {/* Mobile Layout - Centered and Stacked */}
+          <div className="flex flex-col items-center text-center space-y-4 md:hidden">
+            {/* Logo */}
+            <div className="flex items-center justify-center space-x-3">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg blur opacity-75"></div>
+                <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-2.5 rounded-lg">
+                  <GraduationCap className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                CollegeFlow
+              </span>
+            </div>
+            
+            {/* Tagline */}
+            <p className="text-white/70 text-sm font-medium">
+              Empowering Education Journey
+            </p>
+            
+            {/* Copyright */}
+            <p className="text-white/50 text-xs">
+              © 2024 CollegeFlow. All rights reserved.
+            </p>
+          </div>
+
+          {/* Desktop Layout - Horizontal */}
+          <div className="hidden md:flex md:items-center md:justify-between">
             
             {/* Logo and Copyright */}
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg blur opacity-75"></div>
                   <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-lg">
@@ -143,20 +171,23 @@ export default function Footer() {
                   CollegeFlow
                 </span>
               </div>
-              <div className="hidden md:block w-px h-6 bg-white/20"></div>
+              
+              <div className="w-px h-6 bg-white/20"></div>
+              
               <p className="text-white/60 text-sm">
                 © 2024 CollegeFlow. All rights reserved.
               </p>
             </div>
 
-            {/* Social Links or Additional Info */}
-            <div className="flex items-center space-x-6">
+            {/* Tagline */}
+            <div className="flex items-center">
               <span className="text-white/60 text-sm">
                 Empowering Education Journey
               </span>
             </div>
             
           </div>
+          
         </div>
       </div>
     </footer>
