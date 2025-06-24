@@ -51,7 +51,7 @@ CollegeFlow is a modern web application built with React that provides a user-fr
 1. **Clone the repository**
 
    ```bash
-   git clone <https://github.com/Abubokkor98/collegeFlow-client>
+   git clone https://github.com/Abubokkor98/collegeFlow-client
    cd collegeFlow-client
    ```
 
