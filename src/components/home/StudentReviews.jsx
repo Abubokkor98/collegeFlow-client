@@ -1,6 +1,7 @@
 import { Star, Users } from "lucide-react";
+import Loading from "../loader/Loading";
 
-export default function StudentReviews({ reviews }) {
+export default function StudentReviews({ reviews, isLoading }) {
   return (
     <section className="space-y-8">
       <div className="text-center">
@@ -11,7 +12,9 @@ export default function StudentReviews({ reviews }) {
         </p>
       </div>
 
-      {reviews.length > 0 ? (
+      {isLoading ? (
+        <Loading />
+      ) : reviews.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reviews.slice(0, 6).map((review) => (
             <div

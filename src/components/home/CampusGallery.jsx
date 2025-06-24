@@ -1,6 +1,7 @@
 import { BookOpen } from "lucide-react";
+import Loading from "../loader/Loading";
 
-export default function CampusGallery({ images }) {
+export default function CampusGallery({ images, isLoading }) {
   return (
     <section className="space-y-8">
       <div className="text-center">
@@ -11,7 +12,9 @@ export default function CampusGallery({ images }) {
         </p>
       </div>
 
-      {images.length > 0 ? (
+      {isLoading ? (
+        <Loading />
+      ) : images.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
           {images.slice(0, 8).map((img, idx) => (
             <div

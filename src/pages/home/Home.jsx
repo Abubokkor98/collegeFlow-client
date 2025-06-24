@@ -17,22 +17,24 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  const { data: colleges = [], isLoading } = useQuery({
+  const { data: colleges = [], isLoading: collegeLoading } = useQuery({
     queryKey: ["colleges"],
     queryFn: () => axiosPublic.get("/colleges").then((res) => res.data),
   });
 
-  const { data: galleryImages = [] } = useQuery({
+  const { data: galleryImages = [], isLoading: galleryLoading } = useQuery({
     queryKey: ["gallery"],
     queryFn: () => axiosPublic.get("/gallery-images").then((res) => res.data),
   });
 
-  const { data: researchPapers = [] } = useQuery({
-    queryKey: ["research-papers"],
-    queryFn: () => axiosPublic.get("/research-papers").then((res) => res.data),
-  });
+  const { data: researchPapers = [], isLoading: researchPaperLoading } =
+    useQuery({
+      queryKey: ["research-papers"],
+      queryFn: () =>
+        axiosPublic.get("/research-papers").then((res) => res.data),
+    });
 
-  const { data: reviews = [] } = useQuery({
+  const { data: reviews = [], isLoading: reviewLoading } = useQuery({
     queryKey: ["reviews"],
     queryFn: () => axiosPublic.get("/reviews").then((res) => res.data),
   });
@@ -50,7 +52,7 @@ export default function Home() {
   };
 
   return (
-   <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900">
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -80,13 +82,16 @@ export default function Home() {
             <SearchResults results={searchResults} />
           )}
 
-          <FeaturedColleges colleges={colleges} isLoading={isLoading} />
+          <FeaturedColleges colleges={colleges} isLoading={collegeLoading} />
 
-          <CampusGallery images={galleryImages} />
+          <CampusGallery images={galleryImages} isLoading={galleryLoading} />
 
-          <ResearchPapers papers={researchPapers} />
+          <ResearchPapers
+            papers={researchPapers}
+            isLoading={researchPaperLoading}
+          />
 
-          <StudentReviews reviews={reviews} />
+          <StudentReviews reviews={reviews} isLoading={reviewLoading} />
         </div>
       </main>
     </div>
