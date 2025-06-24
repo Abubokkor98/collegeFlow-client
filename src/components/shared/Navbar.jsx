@@ -202,7 +202,7 @@ export default function Navbar() {
                   </Link>
                   <button
                     onClick={() => {
-                      logoutUser();
+                      handleLogout();
                       closeMobileMenu();
                     }}
                     className="flex items-center space-x-3 w-full bg-gradient-to-r from-red-500/20 to-pink-500/20 hover:from-red-500/30 hover:to-pink-500/30 backdrop-blur-sm border border-red-400/30 rounded-2xl px-4 py-3 text-sm font-medium text-red-200 hover:text-white transition-all duration-300"
