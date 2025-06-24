@@ -21,7 +21,6 @@ export default function AllRoutes() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/colleges" element={<Colleges />} />
-        <Route path="/college/:id" element={<CollegeDetails />} />
         <Route path="/admission" element={<AdmissionCollegeList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -34,6 +33,14 @@ export default function AllRoutes() {
           element={
             <PrivateRoute>
               <AdmissionForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/college/:id"
+          element={
+            <PrivateRoute>
+              <CollegeDetails />
             </PrivateRoute>
           }
         />
