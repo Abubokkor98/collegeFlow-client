@@ -23,7 +23,9 @@ export default function GoogleLogin() {
       const response = await axiosPublic.post(`/users`, userData);
 
       setUser(user);
-      navigate(location?.state ? location.state : "/");
+      navigate(location?.state?.from?.pathname || "/");
+      console.log(location?.state?.from?.pathname);
+      console.log(location);
 
       // Show appropriate success message
       if (response.data.inserted) {
