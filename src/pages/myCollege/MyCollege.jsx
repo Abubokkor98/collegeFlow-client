@@ -4,6 +4,9 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import Loading from "../../components/loader/Loading";
+import CollegeInformation from "../../components/myCollege/CollegeInformation";
+import AddReview from "../../components/myCollege/AddReview";
+import CollegeReviews from "../../components/myCollege/CollegeReviews";
 
 export default function MyCollege() {
   const { user } = useAuth();
@@ -57,170 +60,65 @@ export default function MyCollege() {
     }
   };
 
-  if (admissionsLoading) {
-    return <Loading />;
-  }
+  const handleReviewTextChange = (collegeId, value) => {
+    setReviewTextMap((prev) => ({ ...prev, [collegeId]: value }));
+  };
 
-  if (admissions.length === 0) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900">
-        <div className="text-center">
-          <h1 className="text-3xl text-white font-bold mb-4">My College</h1>
-          <p className="text-gray-300 mb-6">
-            You haven’t applied to any colleges yet.
-          </p>
-          <a
-            href="/colleges"
-            className="py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white font-semibold hover:scale-105 transition-transform"
-          >
-            Browse Colleges
-          </a>
-        </div>
-      </div>
-    );
-  }
+  const handleRatingChange = (collegeId, rating) => {
+    setRatingMap((prev) => ({ ...prev, [collegeId]: rating }));
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 p-8">
-      <div className="container mx-auto space-y-16">
-        {admissions.map((admission) => {
-          const collegeReviews = reviews.filter(
-            (r) => r.collegeId === admission.collegeId
-          );
-          const reviewText = reviewTextMap[admission.collegeId] || "";
-          const rating = ratingMap[admission.collegeId] || 5;
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 py-12 px-4">
+      <div className="container mx-auto">
+        {/* Page Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-white">My College</h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mt-4 rounded-full"></div>
+        </div>
 
-          return (
-            <div key={admission._id} className="space-y-8">
-              {/* College Header */}
-              <div className="text-center mb-2">
-                <h1 className="text-4xl font-bold text-white">
-                  {admission.collegeName}
-                </h1>
-                <p className="text-gray-400 mt-2">Your selected college</p>
-              </div>
+        {admissionsLoading ? (
+          <Loading />
+        ) : admissions.length === 0 ? (
+          <div className="text-center">
+            <p className="text-gray-300 mb-6">
+              You haven't applied to any colleges yet.
+            </p>
+            <a
+              href="/colleges"
+              className="py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white font-semibold hover:scale-105 transition-transform"
+            >
+              Browse Colleges
+            </a>
+          </div>
+        ) : (
+          <div className="space-y-16">
+            {admissions.map((admission) => {
+              const collegeReviews = reviews.filter(
+                (r) => r.collegeId === admission.collegeId
+              );
+              const reviewText = reviewTextMap[admission.collegeId] || "";
+              const rating = ratingMap[admission.collegeId] || 5;
 
-              {/* Admission Details */}
-              <section className="bg-white/5 backdrop-blur-xl p-6 rounded-3xl shadow-lg">
-                <h2 className="text-2xl font-bold text-white mb-4">
-                  Admission Details
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-300">
-                  <p>
-                    <span className="font-semibold text-white">Name:</span>{" "}
-                    {admission.candidate_name}
-                  </p>
-                  <p>
-                    <span className="font-semibold text-white">Email:</span>{" "}
-                    {admission.candidate_email}
-                  </p>
-                  <p>
-                    <span className="font-semibold text-white">Subject:</span>{" "}
-                    {admission.subject}
-                  </p>
-                  <p>
-                    <span className="font-semibold text-white">Status:</span>{" "}
-                    <span
-                      className={`inline-block px-3 py-1 rounded-full text-sm ${
-                        admission.status === "approved"
-                          ? "bg-green-500"
-                          : "bg-yellow-500"
-                      }`}
-                    >
-                      {admission.status}
-                    </span>
-                  </p>
+              return (
+                <div key={admission._id} className="space-y-8">
+                  <CollegeInformation admission={admission} />
+
+                  <AddReview
+                    admission={admission}
+                    reviewText={reviewText}
+                    rating={rating}
+                    onReviewTextChange={handleReviewTextChange}
+                    onRatingChange={handleRatingChange}
+                    onSubmit={handleAddReview}
+                  />
+
+                  <CollegeReviews reviews={collegeReviews} />
                 </div>
-              </section>
-
-              {/* Add Review */}
-              <section className="bg-white/10 backdrop-blur-xl p-6 rounded-3xl shadow-lg">
-                <h2 className="text-2xl font-bold text-white mb-4">
-                  Add a Review
-                </h2>
-                <form
-                  onSubmit={(e) => handleAddReview(e, admission)}
-                  className="space-y-6"
-                >
-                  <div>
-                    <label className="text-gray-300 block mb-2">
-                      Your Rating
-                    </label>
-                    <div className="flex space-x-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          onClick={() =>
-                            setRatingMap((prev) => ({
-                              ...prev,
-                              [admission.collegeId]: star,
-                            }))
-                          }
-                          className={`w-8 h-8 rounded-full transition-colors ${
-                            rating >= star ? "bg-yellow-400" : "bg-gray-600"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-gray-300 block mb-2">
-                      Your Review
-                    </label>
-                    <textarea
-                      value={reviewText}
-                      onChange={(e) =>
-                        setReviewTextMap((prev) => ({
-                          ...prev,
-                          [admission.collegeId]: e.target.value,
-                        }))
-                      }
-                      className="w-full p-4 rounded-xl bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-blue-500"
-                      rows="4"
-                      placeholder="Share your experience with this college..."
-                    ></textarea>
-                  </div>
-                  <button
-                    type="submit"
-                    className="py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white font-semibold hover:scale-105 transition-transform"
-                  >
-                    Submit Review
-                  </button>
-                </form>
-              </section>
-
-              {/* College Reviews */}
-              <section className="bg-white/10 backdrop-blur-xl p-6 rounded-3xl shadow-lg">
-                <h2 className="text-2xl font-bold text-white mb-4">
-                  College Reviews
-                </h2>
-                {collegeReviews.length > 0 ? (
-                  <div className="space-y-4">
-                    {collegeReviews.map((review) => (
-                      <div
-                        key={review._id}
-                        className="p-4 bg-gray-800 rounded-xl"
-                      >
-                        <h3 className="font-semibold text-white">
-                          {review.reviewerName || "Anonymous"}
-                        </h3>
-                        <p className="text-gray-400">{review.comment}</p>
-                        <p className="text-sm text-gray-500 mt-2">
-                          {new Date(review.date).toLocaleDateString()}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-400 text-center">
-                    No reviews available for this college
-                  </p>
-                )}
-              </section>
-            </div>
-          );
-        })}
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

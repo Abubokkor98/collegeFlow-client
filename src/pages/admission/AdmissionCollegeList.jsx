@@ -42,27 +42,47 @@ export default function AdmissionCollegeList() {
         {isLoading ? (
           <Loading />
         ) : (
-          {
-            /* College List Grid */
-          }(
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {colleges.map((college) => (
-                <div
-                  key={college._id}
-                  className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300"
-                >
-                  <h2 className="text-xl font-semibold mb-2">{college.name}</h2>
-                  <p className="text-gray-600 mb-4">{college.description}</p>
-                  <button
-                    onClick={() => handleApplyClick(college._id)}
-                    className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors duration-300"
-                  >
-                    Apply Now
-                  </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {colleges.map((college) => (
+              <div
+                key={college._id}
+                className="relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-[1.02]"
+              >
+                {/* Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={college.image}
+                    alt={college.name}
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
                 </div>
-              ))}
-            </div>
-          )
+
+                {/* Content */}
+                <div className="p-6 space-y-4 text-white">
+                  <h2 className="text-xl font-semibold line-clamp-2">
+                    {college.name}
+                  </h2>
+                  <p className="text-sm text-gray-300">
+                    <span className="font-medium text-white">
+                      Admission Dates:
+                    </span>{" "}
+                    {college.admissionDates}
+                  </p>
+
+                  <div className="pt-4 border-t border-white/10">
+                    <button
+                      onClick={() => handleApplyClick(college._id)}
+                      className="relative block w-full text-center bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
+                    >
+                      Apply Now
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full hover:translate-x-full transition-transform duration-700"></div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
