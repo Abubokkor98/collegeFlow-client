@@ -1,6 +1,5 @@
-import React from "react";
 import useAuth from "../hooks/useAuth";
-import { useLocation } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import Loading from "../components/loader/Loading";
 
 export default function PrivateRoute({ children }) {
